@@ -1,34 +1,39 @@
 <template>
-  <div class="min-h-screen bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+  <div class="min-h-screen bg-[url('https://wallpaperaccess.com/full/1092679.jpg')] bg-cover bg-center flex items-center justify-center p-4 relative">
+    <!-- Overlay escuro para melhorar leitura -->
+    <div class="absolute inset-0 bg-gray-900/80 z-0"></div>
+
+    <div class="bg-gray-900 border border-gray-700 rounded-none shadow-2xl p-8 w-full max-w-md relative z-10 transform transition-all hover:scale-[1.01] duration-300">
       <!-- logo/Header -->
-      <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-gray-800 mb-2">Quiz Marvel</h1>
-        <p class="text-gray-600">Entre na sua conta</p>
+      <div class="text-center mb-10">
+        <div class="inline-block bg-[#EC1D24] text-white px-4 py-1 mb-4 transform -skew-x-12 shadow-lg">
+          <h1 class="text-4xl font-black tracking-tighter uppercase transform skew-x-12">Marvel Quiz</h1>
+        </div>
+        <p class="text-gray-400 font-medium tracking-wide uppercase text-sm">Acesse o Universo</p>
       </div>
 
       <!-- formulário de Login -->
       <form @submit.prevent="handleLogin" class="space-y-6">
         <!-- email -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+        <div class="group">
+          <label class="block text-xs font-bold text-red-500 uppercase tracking-wider mb-1 group-focus-within:text-red-400 transition-colors">Email</label>
           <input
             v-model="form.email"
             type="email"
             required
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+            class="w-full px-4 py-3 bg-gray-800 border-2 border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-[#EC1D24] focus:ring-1 focus:ring-[#EC1D24] transition-all duration-300 rounded-sm"
             placeholder="seu@email.com"
           >
         </div>
 
         <!-- senha -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Senha</label>
+        <div class="group">
+          <label class="block text-xs font-bold text-red-500 uppercase tracking-wider mb-1 group-focus-within:text-red-400 transition-colors">Senha</label>
           <input
             v-model="form.password"
             type="password"
             required
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+            class="w-full px-4 py-3 bg-gray-800 border-2 border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-[#EC1D24] focus:ring-1 focus:ring-[#EC1D24] transition-all duration-300 rounded-sm"
             placeholder="Sua senha"
           >
         </div>
@@ -37,87 +42,87 @@
         <button
           type="submit"
           :disabled="loading"
-          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+          class="w-full bg-[#EC1D24] hover:bg-red-700 text-white font-black uppercase tracking-widest py-4 px-4 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_4px_0_rgb(153,27,27)] active:translate-y-0 active:shadow-none disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center clip-path-slant"
         >
           <svg v-if="loading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          <span>{{ loading ? 'Entrando...' : 'Entrar' }}</span>
+          <span>{{ loading ? 'Acessando...' : 'Entrar' }}</span>
         </button>
 
         <!-- link para Registrar -->
-        <div class="text-center">
+        <div class="text-center mt-6">
           <button
             type="button"
             @click="showRegister = true"
-            class="text-blue-600 hover:text-blue-800 font-medium"
+            class="text-gray-400 hover:text-[#EC1D24] font-bold text-sm uppercase tracking-wide transition-colors duration-300 border-b-2 border-transparent hover:border-[#EC1D24]"
           >
-            Não tem conta? Registre-se
+            Novo recruta? Registre-se
           </button>
         </div>
       </form>
 
       <!-- modal de Registro -->
-      <div v-if="showRegister" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl p-8 w-full max-w-md max-h-[90vh] overflow-y-auto">
-          <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-gray-800">Criar Conta</h2>
-            <button @click="closeRegister" class="text-gray-500 hover:text-gray-700">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div v-if="showRegister" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-gray-900 border-2 border-[#EC1D24] p-8 w-full max-w-md max-h-[90vh] overflow-y-auto relative shadow-[0_0_50px_rgba(236,29,36,0.3)]">
+          <div class="flex justify-between items-center mb-8">
+            <h2 class="text-3xl font-black text-white uppercase italic tracking-tighter">Nova Identidade</h2>
+            <button @click="closeRegister" class="text-gray-500 hover:text-[#EC1D24] transition-colors">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
               </svg>
             </button>
           </div>
           
-          <form @submit.prevent="handleRegister" class="space-y-4">
+          <form @submit.prevent="handleRegister" class="space-y-5">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Nome Completo</label>
+              <label class="block text-xs font-bold text-red-500 uppercase tracking-wider mb-1">Nome de Herói</label>
               <input
                 v-model="registerForm.name"
                 type="text"
                 required
-                placeholder="Seu nome"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Ex: Tony Stark"
+                class="w-full px-4 py-3 bg-gray-800 border-2 border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-[#EC1D24] focus:ring-1 focus:ring-[#EC1D24] transition-all rounded-sm"
               >
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+              <label class="block text-xs font-bold text-red-500 uppercase tracking-wider mb-1">Email</label>
               <input
                 v-model="registerForm.email"
                 type="email"
                 required
                 placeholder="seu@email.com"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                class="w-full px-4 py-3 bg-gray-800 border-2 border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-[#EC1D24] focus:ring-1 focus:ring-[#EC1D24] transition-all rounded-sm"
               >
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Senha</label>
+              <label class="block text-xs font-bold text-red-500 uppercase tracking-wider mb-1">Senha</label>
               <input
                 v-model="registerForm.password"
                 type="password"
                 required
                 placeholder="Mínimo 6 caracteres"
                 minlength="6"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                class="w-full px-4 py-3 bg-gray-800 border-2 border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-[#EC1D24] focus:ring-1 focus:ring-[#EC1D24] transition-all rounded-sm"
               >
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Confirmar Senha</label>
+              <label class="block text-xs font-bold text-red-500 uppercase tracking-wider mb-1">Confirmar Senha</label>
               <input
                 v-model="registerForm.password_confirmation"
                 type="password"
                 required
                 placeholder="Confirme sua senha"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                class="w-full px-4 py-3 bg-gray-800 border-2 border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-[#EC1D24] focus:ring-1 focus:ring-[#EC1D24] transition-all rounded-sm"
               >
             </div>
 
             <!-- mensagem de erro no registro -->
-            <div v-if="registerError" class="p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm">
+            <div v-if="registerError" class="p-3 bg-red-900/30 border border-red-500 text-red-200 text-sm font-medium">
               {{ registerError }}
             </div>
 
@@ -125,20 +130,20 @@
               <button
                 type="button"
                 @click="closeRegister"
-                class="flex-1 bg-gray-500 text-white py-3 rounded-lg hover:bg-gray-600 transition font-medium"
+                class="flex-1 bg-gray-700 text-white py-3 hover:bg-gray-600 transition font-bold uppercase tracking-wider text-sm"
               >
                 Cancelar
               </button>
               <button
                 type="submit"
                 :disabled="registerLoading"
-                class="flex-1 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition disabled:opacity-50 font-medium flex items-center justify-center"
+                class="flex-1 bg-[#EC1D24] text-white py-3 hover:bg-red-700 transition disabled:opacity-50 font-bold uppercase tracking-wider text-sm flex items-center justify-center"
               >
                 <svg v-if="registerLoading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                {{ registerLoading ? 'Criando...' : 'Criar Conta' }}
+                {{ registerLoading ? 'Criando...' : 'Criar' }}
               </button>
             </div>
           </form>
@@ -146,7 +151,7 @@
       </div>
 
       <!-- mensagem de Erro -->
-      <div v-if="error" class="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+      <div v-if="error" class="mt-4 p-3 bg-red-900/30 border border-red-500 text-red-200 font-medium text-center">
         {{ error }}
       </div>
     </div>

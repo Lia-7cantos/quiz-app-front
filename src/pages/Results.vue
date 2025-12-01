@@ -1,164 +1,198 @@
 <template>
-  <div class="min-h-screen bg-gray-50 py-8">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-2">resultados do quiz</h1>
-        <p class="text-lg text-gray-600">tentativa id: {{ $route.params.attemptId }}</p>
+  <div class="min-h-screen bg-[url('https://wallpaperaccess.com/full/1092679.jpg')] bg-cover bg-center bg-fixed py-8 relative">
+    <div class="absolute inset-0 bg-gray-900/90 z-0"></div>
+    
+    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10">
+        <h1 class="text-4xl font-black text-white uppercase italic tracking-tighter mb-2 flex items-center justify-center gap-3">
+          <span class="w-2 h-8 bg-[#EC1D24] block transform -skew-x-12"></span>
+          Relatório da Missão
+        </h1>
+        <p class="text-gray-400 font-mono text-sm uppercase tracking-widest">Protocolo ID: {{ $route.params.attemptId }}</p>
       </div>
 
-      <div v-if="showDebug" class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-6">
-        <h3 class="text-lg font-bold text-yellow-800 mb-4">🔍 painel de debug</h3>
+      <div v-if="showDebug" class="bg-gray-800/80 border border-yellow-600/30 rounded-lg p-6 mb-6 backdrop-blur-sm">
+        <h3 class="text-lg font-bold text-yellow-500 mb-4 uppercase tracking-widest flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+          Painel de Diagnóstico
+        </h3>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-mono text-gray-400">
           <div>
-            <p><strong>attempt id da url:</strong> {{ $route.params.attemptId }}</p>
-            <p><strong>token no localstorage:</strong> {{ hasToken ? 'sim' : 'não' }}</p>
-            <p><strong>loading results:</strong> {{ loading }}</p>
-            <p><strong>loading ranking:</strong> {{ loadingRanking }}</p>
+            <p><strong class="text-gray-300">Attempt ID:</strong> {{ $route.params.attemptId }}</p>
+            <p><strong class="text-gray-300">Token Status:</strong> {{ hasToken ? 'Ativo' : 'Inativo' }}</p>
+            <p><strong class="text-gray-300">Loading Results:</strong> {{ loading }}</p>
+            <p><strong class="text-gray-300">Loading Ranking:</strong> {{ loadingRanking }}</p>
           </div>
           <div>
-            <p><strong>score:</strong> {{ score }}</p>
-            <p><strong>correct answers:</strong> {{ correctAnswers }}</p>
-            <p><strong>total questions:</strong> {{ totalQuestions }}</p>
-            <p><strong>time spent:</strong> {{ timeSpent }}s</p>
-            <p><strong>results count:</strong> {{ results.length }}</p>
-            <p><strong>ranking count:</strong> {{ ranking.length }}</p>
+            <p><strong class="text-gray-300">Score:</strong> {{ score }}</p>
+            <p><strong class="text-gray-300">Correct:</strong> {{ correctAnswers }}</p>
+            <p><strong class="text-gray-300">Total:</strong> {{ totalQuestions }}</p>
+            <p><strong class="text-gray-300">Time:</strong> {{ timeSpent }}s</p>
           </div>
         </div>
 
         <div class="mt-4 flex gap-2">
-          <button @click="loadResults" class="px-4 py-2 bg-blue-600 text-white rounded text-sm">
-             recarregar resultados
+          <button @click="loadResults" class="px-4 py-2 bg-blue-900/50 text-blue-300 border border-blue-800 rounded hover:bg-blue-900 transition text-xs uppercase tracking-wider">
+             Recarregar Dados
           </button>
-          <button @click="loadRanking" class="px-4 py-2 bg-green-600 text-white rounded text-sm">
-             recarregar ranking
+          <button @click="loadRanking" class="px-4 py-2 bg-green-900/50 text-green-300 border border-green-800 rounded hover:bg-green-900 transition text-xs uppercase tracking-wider">
+             Atualizar Ranking
           </button>
-          <button @click="toggleDebug" class="px-4 py-2 bg-gray-600 text-white rounded text-sm">
-            {{ showDebug ? ' esconder debug' : ' mostrar debug' }}
+          <button @click="toggleDebug" class="px-4 py-2 bg-gray-700 text-gray-300 border border-gray-600 rounded hover:bg-gray-600 transition text-xs uppercase tracking-wider">
+            {{ showDebug ? 'Ocultar Painel' : 'Mostrar Painel' }}
           </button>
         </div>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div class="lg:col-span-2">
-          <div class="bg-white rounded-xl shadow-md p-6 mb-6">
-            <div class="text-center">
-              <div class="inline-flex items-center justify-center w-24 h-24 bg-linear-to-br from-green-100 to-blue-100 rounded-full mb-4">
-                <span class="text-2xl font-bold text-gray-900">{{ score }}%</span>
+          <!-- Card de Pontuação -->
+          <div class="bg-gray-800/90 backdrop-blur-md border border-gray-700 p-8 shadow-2xl mb-8 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-[#EC1D24]/5 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none"></div>
+            
+            <div class="text-center relative z-10">
+              <div class="inline-flex items-center justify-center w-32 h-32 relative mb-6">
+                <!-- Círculo de fundo -->
+                <svg class="w-full h-full transform -rotate-90">
+                  <circle cx="64" cy="64" r="60" stroke="currentColor" stroke-width="8" fill="transparent" class="text-gray-700" />
+                  <circle cx="64" cy="64" r="60" stroke="currentColor" stroke-width="8" fill="transparent" 
+                          :stroke-dasharray="377" 
+                          :stroke-dashoffset="377 - (377 * score) / 100"
+                          class="text-[#EC1D24] transition-all duration-1000 ease-out" />
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center flex-col">
+                  <span class="text-3xl font-black text-white">{{ score }}%</span>
+                </div>
               </div>
-              <h2 class="text-xl font-semibold text-gray-900 mb-2">sua pontuação</h2>
-              <p class="text-gray-600 mb-4">{{ getScoreMessage(score) }}</p>
               
-              <div class="flex justify-center space-x-4 text-sm text-gray-500">
-                <span>corretas: {{ correctAnswers }}/{{ totalQuestions }}</span>
-                <span>|</span>
-                <span>erradas: {{ wrongAnswers }}</span>
-                <span>|</span>
-                <span>tempo: {{ timeSpent }}s</span>
+              <h2 class="text-2xl font-black text-white uppercase italic mb-2">Desempenho da Missão</h2>
+              <p class="text-[#EC1D24] font-bold uppercase tracking-widest mb-6">{{ getScoreMessage(score) }}</p>
+              
+              <div class="flex justify-center flex-wrap gap-4 text-sm">
+                <div class="bg-gray-900/50 border border-gray-700 px-4 py-2 rounded">
+                  <span class="text-gray-400 uppercase text-xs block">Acertos</span>
+                  <span class="text-green-500 font-bold text-lg">{{ correctAnswers }}/{{ totalQuestions }}</span>
+                </div>
+                <div class="bg-gray-900/50 border border-gray-700 px-4 py-2 rounded">
+                  <span class="text-gray-400 uppercase text-xs block">Erros</span>
+                  <span class="text-red-500 font-bold text-lg">{{ wrongAnswers }}</span>
+                </div>
+                <div class="bg-gray-900/50 border border-gray-700 px-4 py-2 rounded">
+                  <span class="text-gray-400 uppercase text-xs block">Tempo</span>
+                  <span class="text-blue-500 font-bold text-lg">{{ timeSpent }}s</span>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">📝 detalhes das respostas</h3>
+          <!-- Detalhes das Respostas -->
+          <div class="bg-gray-800/90 backdrop-blur-md border border-gray-700 p-8 shadow-2xl">
+            <h3 class="text-xl font-black text-white uppercase italic mb-6 flex items-center gap-3">
+              <span class="w-2 h-8 bg-gray-600 block transform -skew-x-12"></span>
+              Análise Tática
+            </h3>
             
             <div v-if="results.length > 0" class="space-y-4">
               <div 
                 v-for="(result, index) in results" 
                 :key="index"
-                class="border-l-4 p-4 rounded-r-lg"
-                :class="result.is_correct ? 'border-green-500 bg-green-50' : 'border-red-500 bg-red-50'"
+                class="border-l-4 p-5 bg-gray-900/50 transition-all hover:bg-gray-900"
+                :class="result.is_correct ? 'border-green-500' : 'border-red-500'"
               >
-                <div class="flex justify-between items-start mb-2">
-                  <h4 class="font-medium text-gray-900">questão {{ index + 1 }}</h4>
+                <div class="flex justify-between items-start mb-3">
+                  <h4 class="font-bold text-white uppercase tracking-wide text-sm">Alvo {{ index + 1 }}</h4>
                   <span 
-                    class="px-2 py-1 text-xs rounded-full"
-                    :class="result.is_correct ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
+                    class="px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded-sm"
+                    :class="result.is_correct ? 'bg-green-900/30 text-green-400 border border-green-900' : 'bg-red-900/30 text-red-400 border border-red-900'"
                   >
-                    {{ result.is_correct ? ' correta' : ' incorreta' }}
+                    {{ result.is_correct ? 'Sucesso' : 'Falha' }}
                   </span>
                 </div>
-                <p class="text-gray-700 mb-2 font-medium">{{ result.question_text }}</p>
-                <div class="text-sm space-y-1">
-                  <p class="text-gray-600">
-                    <span class="font-medium">sua resposta:</span> 
-                    <span :class="result.is_correct ? 'text-green-600 font-medium' : 'text-red-600 font-medium'">
+                <p class="text-gray-300 mb-4 font-medium">{{ result.question_text }}</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                  <div class="p-3 rounded bg-black/20 border border-gray-800">
+                    <span class="text-gray-500 uppercase text-xs font-bold block mb-1">Sua Escolha</span>
+                    <span :class="result.is_correct ? 'text-green-400 font-bold' : 'text-red-400 font-bold'">
                       {{ result.user_answer }}
                     </span>
-                  </p>
-                  <p v-if="!result.is_correct" class="text-gray-600">
-                    <span class="font-medium">resposta correta:</span> 
-                    <span class="text-green-600 font-medium">{{ result.correct_answer }}</span>
-                  </p>
+                  </div>
+                  <div v-if="!result.is_correct" class="p-3 rounded bg-black/20 border border-gray-800">
+                    <span class="text-gray-500 uppercase text-xs font-bold block mb-1">Solução Correta</span>
+                    <span class="text-green-400 font-bold">{{ result.correct_answer }}</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div v-else-if="loading" class="text-center py-8">
-              <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-              <p class="text-gray-600 mt-4">carregando resultados...</p>
+            <div v-else-if="loading" class="text-center py-12">
+              <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#EC1D24] mx-auto"></div>
+              <p class="text-gray-400 mt-4 uppercase tracking-widest text-sm">Processando Dados...</p>
             </div>
 
-            <div v-else class="text-center py-8">
-              <p class="text-gray-500">nenhum resultado encontrado</p>
-              <p class="text-sm text-gray-400 mt-2">complete um quiz para ver os resultados</p>
+            <div v-else class="text-center py-12 border border-dashed border-gray-700 rounded">
+              <p class="text-gray-500 uppercase tracking-widest">Nenhum dado encontrado</p>
             </div>
           </div>
         </div>
 
         <div class="lg:col-span-1">
-          <div class="bg-white rounded-xl shadow-md p-6 sticky top-4">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4"> ranking geral</h3>
+          <div class="bg-gray-800/90 backdrop-blur-md border border-gray-700 p-6 shadow-2xl sticky top-4">
+            <h3 class="text-lg font-black text-white uppercase italic mb-6 border-b border-gray-700 pb-4">
+              Classificação Global
+            </h3>
             
             <div v-if="ranking.length > 0" class="space-y-3">
               <div 
                 v-for="(user, index) in ranking" 
                 :key="user.user_id"
-                class="flex items-center justify-between p-3 rounded-lg border"
-                :class="index === 0 ? 'bg-yellow-50 border-yellow-200' : 
-                          index === 1 ? 'bg-gray-50 border-gray-200' : 
-                          index === 2 ? 'bg-orange-50 border-orange-200' : 'bg-white border-gray-200'"
+                class="flex items-center justify-between p-3 rounded border transition-colors"
+                :class="index === 0 ? 'bg-yellow-900/10 border-yellow-700/50' : 
+                          index === 1 ? 'bg-gray-700/30 border-gray-600/50' : 
+                          index === 2 ? 'bg-orange-900/10 border-orange-800/50' : 'bg-transparent border-gray-800'"
               >
                 <div class="flex items-center">
-                  <span class="text-lg font-bold mr-3">
-                    {{ index === 0 ? '1º' : index === 1 ? '2º' : index === 2 ? '3º' : `${index + 1}º` }}
+                  <span class="text-lg font-black mr-3 w-6 text-center"
+                    :class="index === 0 ? 'text-yellow-500' : index === 1 ? 'text-gray-400' : index === 2 ? 'text-orange-600' : 'text-gray-600'"
+                  >
+                    {{ index + 1 }}
                   </span>
                   <div>
-                    <p class="font-medium" :class="user.is_current_user ? 'text-blue-600' : 'text-gray-900'">
+                    <p class="font-bold text-sm uppercase tracking-wide" :class="user.is_current_user ? 'text-[#EC1D24]' : 'text-gray-300'">
                       {{ user.name }}
-                      <span v-if="user.is_current_user" class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded ml-2">você</span>
+                      <span v-if="user.is_current_user" class="text-[10px] bg-[#EC1D24] text-white px-1.5 py-0.5 rounded ml-1">EU</span>
                     </p>
-                    <p class="text-sm text-gray-600">melhor: {{ user.best_score }}%</p>
+                    <p class="text-xs text-gray-500 font-mono">Best: {{ user.best_score }}%</p>
                   </div>
                 </div>
                 <div class="text-right">
-                  <p class="text-sm font-medium text-gray-900">{{ user.avg_score }}%</p>
-                  <p class="text-xs text-gray-500">{{ user.total_attempts }} tentativas</p>
+                  <p class="text-sm font-black text-white">{{ user.avg_score }}%</p>
+                  <p class="text-[10px] text-gray-500 uppercase">{{ user.total_attempts }} runs</p>
                 </div>
               </div>
             </div>
 
-            <div v-else-if="loadingRanking" class="text-center py-4">
-              <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-              <p class="text-gray-600 mt-2">carregando ranking...</p>
+            <div v-else-if="loadingRanking" class="text-center py-8">
+              <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#EC1D24] mx-auto"></div>
             </div>
 
-            <div v-else class="text-center py-4">
-              <p class="text-gray-500">ranking não disponível</p>
+            <div v-else class="text-center py-8">
+              <p class="text-gray-500 text-sm uppercase">Ranking Indisponível</p>
             </div>
 
-            <div class="mt-6 pt-6 border-t border-gray-200">
+            <div class="mt-8 pt-6 border-t border-gray-700 space-y-3">
               <button 
                 @click="goToDashboard" 
-                class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition mb-2"
+                class="w-full px-4 py-3 bg-gray-700 text-white font-bold uppercase tracking-widest hover:bg-gray-600 transition clip-path-slant"
               >
-                ver dashboard
+                Voltar à Base
               </button>
               <button 
                 @click="retakeQuiz" 
-                class="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+                class="w-full px-4 py-3 bg-[#EC1D24] text-white font-black uppercase tracking-widest hover:bg-red-700 transition shadow-lg clip-path-slant"
               >
-                refazer quiz
+                Nova Missão
               </button>
             </div>
           </div>
